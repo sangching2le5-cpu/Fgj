@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Giảng Tiếng Trung: Quốc gia, quốc tịch và ngôn ngữ (HSK 1)</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .hanzi {
+            font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Toast Notification / Custom Modal -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+        <i id="toast-icon" class="fa-solid fa-circle-info text-brand-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-medium">Thông báo</span>
+    </div>
+
+    <!-- Header & Navigation Bar -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo & Title -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                    <div class="w-10 h-10 rounded-xl bg-brand-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        中
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">国家、国籍和语言</h1>
+                        <p class="text-xs text-slate-500">HSK 1 - Sơ cấp A1</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Tabs -->
+                <nav class="hidden lg:flex items-center space-x-1 overflow-x-auto py-2">
+                    <button onclick="switchTab('home')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="home">Trang chủ</button>
+                    <button onclick="switchTab('vocab')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="vocab">1. Quốc gia</button>
+                    <button onclick="switchTab('nationality')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="nationality">2. Quốc tịch</button>
+                    <button onclick="switchTab('language')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="language">3. Ngôn ngữ</button>
+                    <button onclick="switchTab('grammar')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="grammar">4. Ngữ pháp</button>
+                    <button onclick="switchTab('dialogue')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="dialogue">5. Hội thoại</button>
+                    <button onclick="switchTab('pronunciation')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="pronunciation">6. Phát âm</button>
+                    <button onclick="switchTab('exercises')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="exercises">7. Bài tập</button>
+                    <button onclick="switchTab('speaking')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="speaking">8. Luyện nói</button>
+                    <button onclick="switchTab('test')" class="nav-btn px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-brand-50 transition" data-tab="test">9. Kiểm tra</button>
+                </nav>
+
+                <!-- Right Action Buttons -->
+                <div class="flex items-center space-x-2">
+                    <!-- Pinyin Toggle -->
+                    <button onclick="togglePinyin()" id="pinyin-toggle-btn" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-100 text-brand-700 hover:bg-brand-200 transition flex items-center space-x-1.5" title="Ẩn/Hiện Pinyin">
+                        <i class="fa-solid fa-font"></i>
+                        <span class="hidden sm:inline">Pinyin: Bật</span>
+                    </button>
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 transition">
+                        <i class="fa-solid fa-bars text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Overall Progress Bar -->
+        <div class="w-full bg-slate-100 h-1.5">
+            <div id="overall-progress" class="bg-brand-500 h-1.5 transition-all duration-500" style="width: 0%"></div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-1 shadow-lg max-h-[80vh] overflow-y-auto">
+            <button onclick="switchTab('home'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Trang chủ</button>
+            <button onclick="switchTab('vocab'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">1. Từ vựng Quốc gia</button>
+            <button onclick="switchTab('nationality'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">2. Quốc tịch</button>
+            <button onclick="switchTab('language'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">3. Ngôn ngữ</button>
+            <button onclick="switchTab('grammar'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">4. Ngữ pháp</button>
+            <button onclick="switchTab('dialogue'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">5. Hội thoại</button>
+            <button onclick="switchTab('pronunciation'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">6. Luyện phát âm</button>
+            <button onclick="switchTab('exercises'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">7. Bài tập</button>
+            <button onclick="switchTab('speaking'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">8. Luyện nói</button>
+            <button onclick="switchTab('test'); toggleMobileMenu();" class="block w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">9. Kiểm tra cuối bài</button>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= SECTION 0: HOME / OVERVIEW ================= -->
+        <section id="tab-home" class="tab-content space-y-8">
+            <!-- Hero Banner -->
+            <div class="bg-gradient-to-br from-brand-500 to-brand-700 rounded-3xl p-8 sm:p-12 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl font-bold hanzi">国</div>
+                <div class="max-w-3xl relative z-10 space-y-4">
+                    <span class="inline-block bg-white/20 backdrop-blur px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase">HSK 1 - Bài học tương tác</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold tracking-tight">国家、国籍和语言</h2>
+                    <p class="text-brand-100 text-lg sm:text-xl font-light">Quốc gia, Quốc tịch và Ngôn ngữ trong tiếng Trung</p>
+                    <p class="text-brand-50 text-sm sm:text-base leading-relaxed opacity-90">
+                        Chào mừng bạn đến với bài học tiếng Trung sơ cấp A1. Sau bài học này, bạn sẽ tự tin gọi tên các quốc gia, nói quốc tịch của bản thân và người khác, hỏi đáp về ngôn ngữ và tự giới thiệu bản thân bằng tiếng Trung chuẩn xác!
+                    </p>
+                    <div class="pt-4 flex flex-wrap gap-4">
+                        <button onclick="switchTab('vocab')" class="bg-white text-brand-700 font-semibold px-6 py-3 rounded-xl shadow hover:bg-brand-50 transition flex items-center space-x-2">
+                            <span>Bắt đầu học ngay</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <button onclick="switchTab('test')" class="bg-brand-600 text-white font-semibold px-6 py-3 rounded-xl shadow hover:bg-brand-800 transition border border-white/20">
+                            Làm bài kiểm tra
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Learning Objectives & Quick Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 text-brand-600 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-bullseye"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Mục tiêu bài học</h3>
+                    <ul class="text-slate-600 text-sm space-y-2">
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Gọi tên 14+ quốc gia phổ biến</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Nói và hỏi quốc tịch (是 / 哪国人)</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Hỏi và trả lời về ngôn ngữ (说 / 会)</li>
+                        <li><i class="fa-solid fa-check text-green-500 mr-2"></i>Tự giới thiệu bản thân trôi chảy</li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Hệ thống âm thanh</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Tất cả từ vựng, câu ví dụ và đoạn hội thoại đều tích hợp nút phát âm chuẩn phổ thông Mandarin (🔊) với chế độ đọc thường và đọc chậm 0.75x.
+                    </p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-3">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold">
+                        <i class="fa-solid fa-award"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 text-lg">Đánh giá & Tiến độ</h3>
+                    <p class="text-slate-600 text-sm leading-relaxed">
+                        Hoàn thành 8 dạng bài tập tương tác và bài kiểm tra cuối bài 20 câu với hệ thống chấm điểm tự động lưu tiến độ qua LocalStorage.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Quick Jump Sections Grid -->
+            <div class="space-y-4">
+                <h3 class="text-xl font-bold text-slate-900">Nội dung bài học</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div onclick="switchTab('vocab')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">1</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Từ vựng Quốc gia</h4>
+                            <p class="text-xs text-slate-500">14 quốc gia & vùng lãnh thổ</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('nationality')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">2</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Quốc tịch (国籍)</h4>
+                            <p class="text-xs text-slate-500">Quy tắc Quốc gia + 人</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('language')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">3</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Ngôn ngữ (语言)</h4>
+                            <p class="text-xs text-slate-500">Các thứ tiếng & phân biệt từ</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('grammar')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">4</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Ngữ pháp (语法)</h4>
+                            <p class="text-xs text-slate-500">Cấu trúc 是, 哪国人, 说, 会</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('dialogue')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">5</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Hội thoại (对话)</h4>
+                            <p class="text-xs text-slate-500">Làm quen & trò chuyện</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('pronunciation')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">6</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Luyện phát âm</h4>
+                            <p class="text-xs text-slate-500">Phân biệt thanh điệu & từ dễ nhầm</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('exercises')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">7</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Bài tập (练习)</h4>
+                            <p class="text-xs text-slate-500">8 dạng bài tập củng cố</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('speaking')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">8</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Luyện nói (口语)</h4>
+                            <p class="text-xs text-slate-500">Tự giới thiệu bản thân</p>
+                        </div>
+                    </div>
+                    <div onclick="switchTab('test')" class="bg-white p-5 rounded-xl border border-slate-200 hover:border-brand-500 hover:shadow-md transition cursor-pointer flex items-center space-x-4 group">
+                        <div class="w-10 h-10 rounded-lg bg-brand-50 text-brand-600 flex items-center justify-center font-bold group-hover:bg-brand-500 group-hover:text-white transition">9</div>
+                        <div>
+                            <h4 class="font-bold text-slate-900">Kiểm tra cuối bài</h4>
+                            <p class="text-xs text-slate-500">20 câu hỏi tổng hợp</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 1: VOCABULARY - COUNTRIES ================= -->
+        <section id="tab-vocab" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 1</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Từ vựng Quốc gia – 国家 (guójiā)</h2>
+                        <p class="text-sm text-slate-500">Nhấn vào nút loa để nghe phát âm chuẩn (🔊) hoặc nghe chậm 0.75x.</p>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="markSectionComplete('vocab')" id="btn-complete-vocab" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Đánh dấu đã học</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Country Grid -->
+                <div id="country-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-6">
+                    <!-- Populated dynamically via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 2: NATIONALITIES ================= -->
+        <section id="tab-nationality" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 2</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Quốc tịch – 国籍 (guójí)</h2>
+                    <p class="text-sm text-slate-500">Quy tắc cấu tạo quốc tịch trong tiếng Trung rất đơn giản và logic.</p>
+                </div>
+
+                <!-- Rule Box -->
+                <div class="bg-brand-50 border border-brand-200 rounded-2xl p-5 space-y-3">
+                    <h3 class="font-bold text-brand-900 flex items-center space-x-2">
+                        <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                        <span>Quy tắc vàng về Quốc tịch</span>
+                    </h3>
+                    <div class="bg-white px-4 py-3 rounded-xl border border-brand-100 text-center text-lg font-bold text-brand-800 tracking-wide">
+                        Tên Quốc gia + <span class="text-red-600">人 (rén - người)</span> = Quốc tịch
+                    </div>
+                    <p class="text-sm text-slate-700">
+                        Ví dụ: <strong class="hanzi">中国</strong> (Zhōngguó - Trung Quốc) + <strong class="hanzi">人</strong> (rén) = <strong class="hanzi">中国人</strong> (Zhōngguórén - Người Trung Quốc).
+                    </p>
+                </div>
+
+                <!-- Nationality Table -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 text-sm">
+                                <th class="p-3 rounded-l-xl">Quốc gia (国家)</th>
+                                <th class="p-3">Quốc tịch (国籍)</th>
+                                <th class="p-3">Pinyin</th>
+                                <th class="p-3 rounded-r-xl text-right">Phát âm</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nationality-table-body" class="divide-y divide-slate-100 text-sm">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('nationality')" id="btn-complete-nationality" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 3: LANGUAGES ================= -->
+        <section id="tab-language" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 3</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Ngôn ngữ – 语言 (yǔyán)</h2>
+                    <p class="text-sm text-slate-500">Cách gọi tên các ngôn ngữ và phân biệt các từ dễ nhầm lẫn.</p>
+                </div>
+
+                <!-- Difference Box -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <div class="text-xl font-bold hanzi text-brand-600">中国 (Zhōngguó)</div>
+                        <p class="text-xs text-slate-500 font-semibold uppercase">Quốc gia</p>
+                        <p class="text-sm text-slate-700">Chỉ đất nước Trung Quốc.</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <div class="text-xl font-bold hanzi text-brand-600">中国人 (Zhōngguórén)</div>
+                        <p class="text-xs text-slate-500 font-semibold uppercase">Quốc tịch</p>
+                        <p class="text-sm text-slate-700">Chỉ con người (Người Trung Quốc).</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2">
+                        <div class="text-xl font-bold hanzi text-brand-600">中文 / 汉语 (Zhōngwén / Hànyǔ)</div>
+                        <p class="text-xs text-slate-500 font-semibold uppercase">Ngôn ngữ</p>
+                        <p class="text-sm text-slate-700">Chỉ tiếng Trung (ngôn ngữ).</p>
+                    </div>
+                </div>
+
+                <!-- Language Vocabulary Grid -->
+                <div id="language-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('language')" id="btn-complete-language" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 4: GRAMMAR ================= -->
+        <section id="tab-grammar" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 4</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Ngữ pháp – 语法 (yǔfǎ)</h2>
+                    <p class="text-sm text-slate-500">Các cấu trúc câu cốt lõi trong chủ đề quốc tịch và ngôn ngữ.</p>
+                </div>
+
+                <div class="space-y-6" id="grammar-container">
+                    <!-- Grammar points injected by JS -->
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('grammar')" id="btn-complete-grammar" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 5: DIALOGUE ================= -->
+        <section id="tab-dialogue" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 5</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Hội thoại – 对话 (duìhuà)</h2>
+                        <p class="text-sm text-slate-500">Tình huống: Hai sinh viên gặp nhau lần đầu tiên.</p>
+                    </div>
+                    <button onclick="playFullDialogue()" class="px-4 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-medium text-sm transition flex items-center justify-center space-x-2 shadow-sm">
+                        <i class="fa-solid fa-play"></i>
+                        <span>Nghe toàn bộ hội thoại</span>
+                    </button>
+                </div>
+
+                <!-- Dialogue Lines -->
+                <div id="dialogue-container" class="space-y-4">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('dialogue')" id="btn-complete-dialogue" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 6: PRONUNCIATION ================= -->
+        <section id="tab-pronunciation" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 6</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Luyện phát âm – 发音练习 (fāyīn liànxí)</h2>
+                    <p class="text-sm text-slate-500">Phân biệt các âm tiết và thanh điệu dễ gây nhầm lẫn trong tiếng Trung.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="pronunciation-container">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('pronunciation')" id="btn-complete-pronunciation" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 7: EXERCISES ================= -->
+        <section id="tab-exercises" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 7</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Bài tập củng cố – 练习 (liànxí)</h2>
+                    <p class="text-sm text-slate-500">8 dạng bài tập tương tác giúp bạn ghi nhớ sâu kiến thức vừa học.</p>
+                </div>
+
+                <!-- Exercise Navigator Tabs -->
+                <div class="flex flex-wrap gap-2 pb-4 border-b border-slate-100" id="exercise-tabs">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Exercise Active Content Area -->
+                <div id="exercise-content-area" class="py-4">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('exercises')" id="btn-complete-exercises" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 8: SPEAKING PRACTICE ================= -->
+        <section id="tab-speaking" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div>
+                    <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 8</span>
+                    <h2 class="text-2xl font-bold text-slate-900">Luyện nói – 口语练习 (kǒuyǔ liànxí)</h2>
+                    <p class="text-sm text-slate-500">Tự giới thiệu bản thân bằng tiếng Trung theo mẫu chuẩn.</p>
+                </div>
+
+                <!-- Template Card -->
+                <div class="bg-brand-50 border border-brand-200 rounded-2xl p-6 space-y-4">
+                    <h3 class="font-bold text-brand-900 text-lg flex items-center space-x-2">
+                        <i class="fa-solid fa-microphone text-brand-600"></i>
+                        <span>Mẫu tự giới thiệu (自我介绍)</span>
+                    </h3>
+                    <div id="speaking-template" class="space-y-3 bg-white p-5 rounded-xl border border-brand-100">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="markSectionComplete('speaking')" id="btn-complete-speaking" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã học</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= SECTION 9: FINAL TEST ================= -->
+        <section id="tab-test" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-4">
+                    <div>
+                        <span class="text-xs font-bold text-brand-600 uppercase tracking-wider">Phần 9</span>
+                        <h2 class="text-2xl font-bold text-slate-900">Kiểm tra cuối bài (20 câu hỏi)</h2>
+                        <p class="text-sm text-slate-500">Đánh giá toàn diện kiến thức từ vựng, ngữ pháp, nghe hiểu và dịch câu.</p>
+                    </div>
+                    <div id="test-timer" class="px-4 py-2 bg-brand-50 text-brand-700 font-semibold rounded-xl text-sm hidden">
+                        Thời gian: <span id="timer-display">15:00</span>
+                    </div>
+                </div>
+
+                <!-- Start Test View -->
+                <div id="test-intro" class="text-center py-12 space-y-6 max-w-xl mx-auto">
+                    <div class="w-20 h-20 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center text-3xl mx-auto shadow-inner">
+                        <i class="fa-solid fa-file-pen"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-xl font-bold text-slate-900">Bài kiểm tra tổng hợp HSK 1</h3>
+                        <p class="text-slate-600 text-sm">
+                            Bài kiểm tra gồm 20 câu trắc nghiệm và điền đáp án. Điểm số sẽ được chấm tự động ngay khi bạn nộp bài. Tiến độ của bạn sẽ được lưu lại.
+                        </p>
+                    </div>
+                    <button onclick="startFinalTest()" class="px-8 py-3.5 bg-brand-600 hover:bg-brand-700 text-white font-bold rounded-xl shadow-lg transition">
+                        Bắt đầu làm bài ngay
+                    </button>
+                </div>
+
+                <!-- Quiz Questions Form -->
+                <form id="test-form" class="hidden space-y-8" onsubmit="submitFinalTest(event)">
+                    <div id="test-questions-container" class="space-y-6">
+                        <!-- Injected via JS -->
+                    </div>
+                    <div class="pt-6 border-t border-slate-200 flex justify-end">
+                        <button type="submit" class="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-lg transition">
+                            Nộp bài & Xem kết quả
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Test Result View -->
+                <div id="test-result" class="hidden space-y-6 text-center py-8">
+                    <div class="w-24 h-24 rounded-full flex items-center justify-center text-4xl mx-auto shadow-md" id="result-icon-bg">
+                        <i id="result-icon" class="fa-solid fa-award"></i>
+                    </div>
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-bold text-slate-900" id="result-title">Kết quả bài kiểm tra</h3>
+                        <p class="text-lg font-semibold text-brand-600" id="result-score-text">Điểm số: 0 / 20</p>
+                        <p class="text-slate-600 text-sm max-w-md mx-auto" id="result-feedback">Bạn đã hoàn thành bài kiểm tra.</p>
+                    </div>
+                    <div class="pt-4 flex justify-center space-x-4">
+                        <button onclick="resetFinalTest()" class="px-6 py-3 bg-brand-500 hover:bg-brand-600 text-white font-semibold rounded-xl shadow transition">
+                            Làm lại bài kiểm tra
+                        </button>
+                        <button onclick="switchTab('home')" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold rounded-xl transition">
+                            Về trang chủ
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex justify-end pt-4">
+                    <button onclick="markSectionComplete('test')" id="btn-complete-test" class="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-emerald-50 hover:text-emerald-600 rounded-xl font-medium text-sm transition flex items-center space-x-2">
+                        <i class="fa-solid fa-check"></i>
+                        <span>Đánh dấu đã hoàn thành bài kiểm tra</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-sm text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 space-y-2">
+            <p>国家、国籍和语言 – Bài giảng tiếng Trung HSK 1 Sơ cấp A1</p>
+            <p class="text-xs">Thiết kế tương tác chuyên nghiệp cho người Việt Nam học tiếng Trung.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        /* ================= DATASETS ================= */
+        const countriesData = [
+            { hanzi: "中国", pinyin: "Zhōngguó", vi: "Trung Quốc", sampleHanzi: "我是中国人。", samplePinyin: "Wǒ shì Zhōngguórén.", sampleVi: "Tôi là người Trung Quốc." },
+            { hanzi: "越南", pinyin: "Yuènán", vi: "Việt Nam", sampleHanzi: "我来自越南。", samplePinyin: "Wǒ láizì Yuènán.", sampleVi: "Tôi đến từ Việt Nam." },
+            { hanzi: "美国", pinyin: "Měiguó", vi: "Mỹ", sampleHanzi: "他是个美国人。", samplePinyin: "Tā shì gè Měiguórén.", sampleVi: "Anh ấy là người Mỹ." },
+            { hanzi: "英国", pinyin: "Yīngguó", vi: "Anh", sampleHanzi: "我不是英国人。", samplePinyin: "Wǒ bú shì Yīngguórén.", sampleVi: "Tôi không phải người Anh." },
+            { hanzi: "法国", pinyin: "Fǎguó", vi: "Pháp", sampleHanzi: "她去过法国。", samplePinyin: "Tā qùguo Fǎguó.", sampleVi: "Cô ấy từng đến Pháp." },
+            { hanzi: "日本", pinyin: "Rìběn", vi: "Nhật Bản", sampleHanzi: "日本很大吗？", samplePinyin: "Rìběn hěn dà ma?", sampleVi: "Nhật Bản rất lớn phải không?" },
+            { hanzi: "韩国", pinyin: "Hánguó", vi: "Hàn Quốc", sampleHanzi: "我喜欢韩国。", samplePinyin: "Wǒ xǐhuān Hánguó.", sampleVi: "Tôi thích Hàn Quốc." },
+            { hanzi: "泰国", pinyin: "Tàiguó", vi: "Thái Lan", sampleHanzi: "泰国菜很好吃。", samplePinyin: "Tàiguó cài hěn hǎochī.", sampleVi: "Món Thái rất ngon." },
+            { hanzi: "加拿大", pinyin: "Jiānádà", vi: "Canada", sampleHanzi: "加拿大在北美。", samplePinyin: "Jiānádà zài běiměi.", sampleVi: "Canada ở Bắc Mỹ." },
+            { hanzi: "澳大利亚", pinyin: "Àodàlìyà", vi: "Úc", sampleHanzi: "澳大利亚很大。", samplePinyin: "Àodàlìyà hěn dà.", sampleVi: "Nước Úc rất rộng lớn." },
+            { hanzi: "德国", pinyin: "Déguó", vi: "Đức", sampleHanzi: "德国人在学中文。", samplePinyin: "Déguórén zài xué Zhōngwén.", sampleVi: "Người Đức đang học tiếng Trung." },
+            { hanzi: "西班牙", pinyin: "Xībānyá", vi: "Tây Ban Nha", sampleHanzi: "西班牙语很美。", samplePinyin: "Xībānyáyǔ hěn měi.", sampleVi: "Tiếng Tây Ban Nha rất hay." },
+            { hanzi: "巴西", pinyin: "Bāxī", vi: "Brazil", sampleHanzi: "巴西踢足球很好。", samplePinyin: "Bāxī tī zúqiú hěn hǎo.", sampleVi: "Brazil đá bóng rất giỏi." }
+        ];
+
+        const nationalitiesData = countriesData.map(c => ({
+            country: c.hanzi,
+            countryPinyin: c.pinyin,
+            nationality: c.hanzi + "人",
+            nationalityPinyin: c.pinyin + "rén",
+            vi: "Người " + c.vi
+        }));
+
+        const languagesData = [
+            { hanzi: "语言", pinyin: "yǔyán", vi: "Ngôn ngữ", sample: "你会几种语言？ (Bạn biết mấy thứ tiếng?)" },
+            { hanzi: "中文", pinyin: "Zhōngwén", vi: "Tiếng Trung", sample: "我正在学习中文。" },
+            { hanzi: "汉语", pinyin: "Hànyǔ", vi: "Tiếng Trung", sample: "汉语很难吗？" },
+            { hanzi: "英语", pinyin: "Yīngyǔ", vi: "Tiếng Anh", sample: "他说英语很好。" },
+            { hanzi: "越南语", pinyin: "Yuènányǔ", vi: "Tiếng Việt", sample: "这是越南语。" },
+            { hanzi: "法语", pinyin: "Fǎyǔ", vi: "Tiếng Pháp", sample: "她会说法语。" },
+            { hanzi: "日语", pinyin: "Rìyǔ", vi: "Tiếng Nhật", sample: "你会说日语吗？" },
+            { hanzi: "韩语", pinyin: "Hányǔ", vi: "Tiếng Hàn", sample: "韩语很好听。" },
+            { hanzi: "泰语", pinyin: "Tàiyǔ", vi: "Tiếng Thái", sample: "泰语很有趣。" },
+            { hanzi: "西班牙语", pinyin: "Xībānyáyǔ", vi: "Tây Ban Nha", sample: "很多人学西班牙语。" },
+            { hanzi: "德语", pinyin: "Déyǔ", vi: "Tiếng Đức", sample: "德语发音很难。" }
+        ];
+
+        const grammarData = [
+            {
+                title: "1. Cấu trúc giới thiệu quốc tịch với 是 (shì)",
+                formula: "Chủ ngữ + 是 + Quốc tịch",
+                desc: "Dùng để khẳng định quốc tịch của bản thân hoặc người khác. Lưu ý: 是 không thay đổi hình thái theo chủ ngữ.",
+                examples: [
+                    { hanzi: "我是越南人。", pinyin: "Wǒ shì Yuènánrén.", vi: "Tôi là người Việt Nam." },
+                    { hanzi: "你是中国人。", pinyin: "Nǐ shì Zhōngguórén.", vi: "Bạn là người Trung Quốc." },
+                    { hanzi: "她是美国人。", pinyin: "Tā shì Měiguórén.", vi: "Cô ấy là người Mỹ." }
+                ]
+            },
+            {
+                title: "2. Cấu trúc phủ định với 不是",
+                formula: "Chủ ngữ + 不 + 是 + Quốc tịch",
+                desc: "Dùng để phủ định quốc tịch (Không phải là...).",
+                examples: [
+                    { hanzi: "我不是英国人。", pinyin: "Wǒ bú shì Yīngguórén.", vi: "Tôi không phải người Anh." },
+                    { hanzi: "他不是日本人。", pinyin: "Tā bú shì Rìběnrén.", vi: "Anh ấy không phải người Nhật." },
+                    { hanzi: "我们不是韩国人。", pinyin: "Wǒmen bú shì Hánguórén.", vi: "Chúng tôi không phải người Hàn Quốc." }
+                ]
+            },
+            {
+                title: "3. Câu hỏi quốc tịch với 哪国人",
+                formula: "Chủ ngữ + 是 + 哪 (nǎ) + 国 (guó) + 人 (rén) ?",
+                desc: "Từ nghi vấn 哪 có nghĩa là 'nào'. Kết hợp với 国 và 人 thành 'người nước nào?'.",
+                examples: [
+                    { hanzi: "你是哪国人？", pinyin: "Nǐ shì nǎ guó rén?", vi: "Bạn là người nước nào?" },
+                    { hanzi: "他是哪国人？", pinyin: "Tā shì nǎ guó rén?", vi: "Anh ấy là người nước nào?" },
+                    { hanzi: "你爸爸是哪国人？", pinyin: "Nǐ bàba shì nǎ guó rén?", vi: "Bố bạn là người nước nào?" }
+                ]
+            },
+            {
+                title: "4. Nói về ngôn ngữ sử dụng với 说 (shuō)",
+                formula: "Chủ ngữ + 说 + Ngôn ngữ",
+                desc: "说 có nghĩa là 'nói'. Dùng để nói về ngôn ngữ mà chủ ngữ sử dụng.",
+                examples: [
+                    { hanzi: "我说越南语。", pinyin: "Wǒ shuō Yuènányǔ.", vi: "Tôi nói tiếng Việt." },
+                    { hanzi: "他说英语。", pinyin: "Tā shuō Yīngyǔ.", vi: "Anh ấy nói tiếng Anh." },
+                    { hanzi: "老师说中文。", pinyin: "Lǎoshī shuō Zhōngwén.", vi: "Thầy giáo nói tiếng Trung." }
+                ]
+            },
+            {
+                title: "5. Hỏi khả năng nói ngôn ngữ với 吗",
+                formula: "Chủ ngữ + 说 / 会说 + Ngôn ngữ + 吗？",
+                desc: "Dùng trợ từ nghi vấn 吗 ở cuối câu để hỏi xem người khác có biết nói ngôn ngữ đó hay không.",
+                examples: [
+                    { hanzi: "你说英语吗？", pinyin: "Nǐ shuō Yīngyǔ ma?", vi: "Bạn có nói tiếng Anh không?" },
+                    { hanzi: "你会说中文吗？", pinyin: "Nǐ huì shuō Zhōngwén ma?", vi: "Bạn biết nói tiếng Trung không?" },
+                    { hanzi: "他会说法语吗？", pinyin: "Tā huì shuō Fǎyǔ ma?", vi: "Anh ấy biết nói tiếng Pháp không?" }
+                ]
+            },
+            {
+                title: "6. Phân biệt 会 (huì) và 说 (shuō)",
+                formula: "会 (Biết, có kỹ năng) vs. 说 (Nói, phát ngôn)",
+                desc: "会 nhấn mạnh vào năng lực, kỹ năng đã học được (biết làm gì). 说 nhấn mạnh vào hành động nói.",
+                examples: [
+                    { hanzi: "我说英语。", pinyin: "Wǒ shuō Yīngyǔ.", vi: "Tôi nói tiếng Anh (hành động nói)." },
+                    { hanzi: "我会说英语。", pinyin: "Wǒ huì shuō Yīngyǔ.", vi: "Tôi biết nói tiếng Anh (có kỹ năng)." },
+                    { hanzi: "我会说一点儿中文。", pinyin: "Wǒ huì shuō yìdiǎnr Zhōngwén.", vi: "Tôi biết nói một chút tiếng Trung." }
+                ]
+            }
+        ];
+
+        const dialogueData = [
+            { speaker: "A", name: "A (Lan)", hanzi: "你好！你是哪国人？", pinyin: "Nǐ hǎo! Nǐ shì nǎ guó rén?", vi: "Xin chào! Bạn là người nước nào?" },
+            { speaker: "B", name: "B (Minh)", hanzi: "我是越南人。你呢？", pinyin: "Wǒ shì Yuènánrén. Nǐ ne?", vi: "Tôi là người Việt Nam. Còn bạn?" },
+            { speaker: "A", name: "A (Lan)", hanzi: "我是中国人。你会说中文吗？", pinyin: "Wǒ shì Zhōngguórén. Nǐ huì shuō Zhōngwén ma?", vi: "Tôi là người Trung Quốc. Bạn biết nói tiếng Trung không?" },
+            { speaker: "B", name: "B (Minh)", hanzi: "会，我会说一点儿中文。", pinyin: "Huì, wǒ huì shuō yìdiǎnr Zhōngwén.", vi: "Có, tôi biết nói một chút tiếng Trung." },
+            { speaker: "A", name: "A (Lan)", hanzi: "你也会说英语吗？", pinyin: "Nǐ yě huì shuō Yīngyǔ ma?", vi: "Bạn cũng biết nói tiếng Anh không?" },
+            { speaker: "B", name: "B (Minh)", hanzi: "会，我会说越南语和英语。", pinyin: "Huì, wǒ huì shuō Yuènányǔ hé Yīngyǔ.", vi: "Có, tôi biết nói tiếng Việt và tiếng Anh." }
+        ];
+
+        const pronunciationData = [
+            {
+                pair: "国 (guó) vs 过 (guò)",
+                desc: "Phân biệt thanh 2 (guó) và thanh 4 (guò). Chú ý vần -uo và âm u.",
+                items: [
+                    { hanzi: "国", pinyin: "guó", vi: "Quốc gia", sampleHanzi: "中国", samplePinyin: "Zhōngguó" },
+                    { hanzi: "过", pinyin: "guò", vi: "Đã từng / qua", sampleHanzi: "去过", samplePinyin: "qùguo" }
+                ]
+            },
+            {
+                pair: "人 (rén) vs 认 (rèn)",
+                desc: "Phân biệt thanh 2 (rén) và thanh 4 (rèn) với âm đầu r-.",
+                items: [
+                    { hanzi: "人", pinyin: "rén", vi: "Người", sampleHanzi: "中国人", samplePinyin: "Zhōngguórén" },
+                    { hanzi: "认", pinyin: "rèn", vi: "Nhận / quen", sampleHanzi: "认识", samplePinyin: "rènshi" }
+                ]
+            },
+            {
+                pair: "语 (yǔ) vs 雨 (yǔ)",
+                desc: "Cả hai đều đọc là yǔ (Thanh 3), cùng âm tiết nhưng khác chữ Hán và ngữ cảnh.",
+                items: [
+                    { hanzi: "语", pinyin: "yǔ", vi: "Ngôn ngữ", sampleHanzi: "中文语", samplePinyin: "Zhōngwényǔ" },
+                    { hanzi: "雨", pinyin: "yǔ", vi: "Mưa", sampleHanzi: "下雨", samplePinyin: "xià yǔ" }
+                ]
+            }
+        ];
+
+        /* ================= STATE & PROGRESS ================= */
+        let userProgress = JSON.parse(localStorage.getItem('chinese_lesson_progress')) || {
+            vocab: false,
+            nationality: false,
+            language: false,
+            grammar: false,
+            dialogue: false,
+            pronunciation: false,
+            exercises: false,
+            speaking: false,
+            test: false
+        };
+
+        let pinyinVisible = true;
+
+        /* ================= AUDIO SYNTHESIS ================= */
+        function playAudio(text, rate = 1.0) {
+            if (!('speechSynthesis' in window)) {
+                showToast("Trình duyệt không hỗ trợ phát âm thanh.", "error");
+                return;
+            }
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'zh-CN';
+            utterance.rate = rate;
+            
+            const voices = window.speechSynthesis.getVoices();
+            const zhVoice = voices.find(v => v.lang === 'zh-CN' || v.lang.startsWith('zh'));
+            if (zhVoice) utterance.voice = zhVoice;
+
+            utterance.onerror = () => {
+                showToast("Lỗi khi phát âm thanh.", "error");
+            };
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        // Preload voices
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.onvoiceschanged = () => {
+                window.speechSynthesis.getVoices();
+            };
+        }
+
+        /* ================= TOAST NOTIFICATION ================= */
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+            
+            toastMsg.textContent = message;
+            if(type === "success") {
+                toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-lg";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-exclamation text-amber-400 text-lg";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        /* ================= NAVIGATION & TABS ================= */
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-50', 'text-brand-600', 'font-semibold');
+                if(btn.dataset.tab === tabId) {
+                    btn.classList.add('bg-brand-50', 'text-brand-600', 'font-semibold');
+                }
+            });
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateProgressIndicator();
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function togglePinyin() {
+            pinyinVisible = !pinyinVisible;
+            const btn = document.getElementById('pinyin-toggle-btn');
+            btn.innerHTML = `<i class="fa-solid fa-font"></i><span class="hidden sm:inline">Pinyin: ${pinyinVisible ? 'Bật' : 'Tắt'}</span>`;
+            
+            document.querySelectorAll('.pinyin-text').forEach(el => {
+                if(pinyinVisible) {
+                    el.classList.remove('hidden');
+                } else {
+                    el.classList.add('hidden');
+                }
+            });
+            showToast(pinyinVisible ? "Đã hiện Pinyin" : "Đã ẩn Pinyin");
+        }
+
+        function markSectionComplete(sectionKey) {
+            userProgress[sectionKey] = true;
+            localStorage.setItem('chinese_lesson_progress', JSON.stringify(userProgress));
+            updateProgressIndicator();
+            showToast("Đã đánh dấu hoàn thành phần này!");
+            
+            const btn = document.getElementById(`btn-complete-${sectionKey}`);
+            if(btn) {
+                btn.className = "px-4 py-2 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl font-medium text-sm transition flex items-center space-x-2";
+                btn.innerHTML = `<i class="fa-solid fa-check-double"></i><span>Đã hoàn thành</span>`;
+            }
+        }
+
+        function updateProgressIndicator() {
+            const keys = Object.keys(userProgress);
+            const completedCount = keys.filter(k => userProgress[k]).length;
+            const percentage = Math.round((completedCount / keys.length) * 100);
+            
+            document.getElementById('overall-progress').style.width = `${percentage}%`;
+
+            keys.forEach(k => {
+                const btn = document.getElementById(`btn-complete-${k}`);
+                if(btn && userProgress[k]) {
+                    btn.className = "px-4 py-2 bg-emerald-50 text-emerald-600 border border-emerald-200 rounded-xl font-medium text-sm transition flex items-center space-x-2";
+                    btn.innerHTML = `<i class="fa-solid fa-check-double"></i><span>Đã hoàn thành</span>`;
+                }
+            });
+        }
+
+        /* ================= RENDER DYNAMIC SECTIONS ================= */
+        function renderVocab() {
+            const grid = document.getElementById('country-grid');
+            grid.innerHTML = countriesData.map(item => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-brand-300 hover:shadow-md transition space-y-3 flex flex-col justify-between">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-3xl font-bold hanzi text-slate-900">${item.hanzi}</div>
+                            <div class="text-sm font-medium text-brand-600 pinyin-text">${item.pinyin}</div>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <button onclick="playAudio('${item.hanzi}')" class="p-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition shadow-sm" title="Nghe chuẩn (1.0x)">
+                                <i class="fa-solid fa-volume-high"></i>
+                            </button>
+                            <button onclick="playAudio('${item.hanzi}', 0.75)" class="p-2.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl transition" title="Nghe chậm (0.75x)">
+                                <i class="fa-solid fa-gauge-low"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="border-t border-slate-200 pt-3 space-y-1">
+                        <div class="text-xs text-slate-500 font-semibold uppercase">Nghĩa: ${item.vi}</div>
+                        <div class="bg-white p-2.5 rounded-xl border border-slate-200 text-xs space-y-0.5">
+                            <div class="flex justify-between items-center">
+                                <span class="hanzi font-semibold text-slate-800">${item.sampleHanzi}</span>
+                                <button onclick="playAudio('${item.sampleHanzi}')" class="text-brand-600 hover:text-brand-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="text-slate-500 pinyin-text">${item.samplePinyin}</div>
+                            <div class="text-slate-600 italic">${item.sampleVi}</div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderNationalities() {
+            const tbody = document.getElementById('nationality-table-body');
+            tbody.innerHTML = nationalitiesData.map(item => `
+                <tr class="hover:bg-slate-50 transition">
+                    <td class="p-3 font-semibold hanzi text-slate-900">${item.country}</td>
+                    <td class="p-3 font-bold hanzi text-brand-600">${item.nationality}</td>
+                    <td class="p-3 text-slate-600 pinyin-text">${item.nationalityPinyin}</td>
+                    <td class="p-3 text-right">
+                        <button onclick="playAudio('${item.nationality}')" class="p-2 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 rounded-lg transition">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderLanguages() {
+            const grid = document.getElementById('language-grid');
+            grid.innerHTML = languagesData.map(item => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 hover:border-brand-300 transition space-y-2 flex flex-col justify-between">
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="text-2xl font-bold hanzi text-slate-900">${item.hanzi}</div>
+                            <div class="text-xs font-medium text-brand-600 pinyin-text">${item.pinyin}</div>
+                        </div>
+                        <button onclick="playAudio('${item.hanzi}')" class="p-2 bg-brand-500 hover:bg-brand-600 text-white rounded-lg transition shadow-sm">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+                    <div class="border-t border-slate-200 pt-2 space-y-1">
+                        <div class="text-xs font-semibold text-slate-700">Nghĩa: ${item.vi}</div>
+                        <div class="text-xs text-slate-500 italic">VD: ${item.sample}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderGrammar() {
+            const container = document.getElementById('grammar-container');
+            container.innerHTML = grammarData.map((g, idx) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 space-y-4">
+                    <h3 class="font-bold text-slate-900 text-lg text-brand-700">${g.title}</h3>
+                    <div class="bg-white px-4 py-3 rounded-xl border border-brand-200 text-sm font-semibold text-slate-800 shadow-sm">
+                        Công thức: <span class="text-brand-600">${g.formula}</span>
+                    </div>
+                    <p class="text-sm text-slate-600">${g.desc}</p>
+                    <div class="space-y-2 pt-2">
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ví dụ minh họa:</span>
+                        <div class="space-y-2">
+                            ${g.examples.map(ex => `
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between text-sm">
+                                    <div>
+                                        <div class="font-semibold hanzi text-slate-900">${ex.hanzi}</div>
+                                        <div class="text-xs text-slate-500 pinyin-text">${ex.pinyin}</div>
+                                        <div class="text-xs text-slate-600">${ex.vi}</div>
+                                    </div>
+                                    <button onclick="playAudio('${ex.hanzi}')" class="p-2 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 rounded-lg transition">
+                                        <i class="fa-solid fa-volume-high"></i>
+                                    </button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderDialogue() {
+            const container = document.getElementById('dialogue-container');
+            container.innerHTML = dialogueData.map((d, idx) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-brand-300 transition">
+                    <div class="space-y-1">
+                        <div class="flex items-center space-x-2">
+                            <span class="px-2 py-0.5 bg-brand-100 text-brand-800 rounded text-xs font-bold">${d.name}</span>
+                        </div>
+                        <div class="text-xl font-bold hanzi text-slate-900 pt-1">${d.hanzi}</div>
+                        <div class="text-sm text-brand-600 font-medium pinyin-text">${d.pinyin}</div>
+                        <div class="text-sm text-slate-600 italic">${d.vi}</div>
+                    </div>
+                    <div class="flex items-center space-x-2 self-end sm:self-center">
+                        <button onclick="playAudio('${d.hanzi}')" class="p-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition shadow-sm" title="Nghe câu này">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                        <button onclick="playAudio('${d.hanzi}', 0.75)" class="p-3 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl transition" title="Nghe chậm">
+                            <i class="fa-solid fa-gauge-low"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function playFullDialogue() {
+            let index = 0;
+            function playNext() {
+                if (index < dialogueData.length) {
+                    const line = dialogueData[index];
+                    const utterance = new SpeechSynthesisUtterance(line.hanzi);
+                    utterance.lang = 'zh-CN';
+                    utterance.onend = () => {
+                        index++;
+                        setTimeout(playNext, 600);
+                    };
+                    window.speechSynthesis.speak(utterance);
+                }
+            }
+            window.speechSynthesis.cancel();
+            playNext();
+            showToast("Đang phát toàn bộ đoạn hội thoại...");
+        }
+
+        function renderPronunciation() {
+            const container = document.getElementById('pronunciation-container');
+            container.innerHTML = pronunciationData.map(p => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-4">
+                    <h3 class="font-bold text-slate-900 text-base text-brand-700">${p.pair}</h3>
+                    <p class="text-xs text-slate-600 leading-relaxed">${p.desc}</p>
+                    <div class="space-y-3 pt-2">
+                        ${p.items.map(item => `
+                            <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center justify-between text-sm">
+                                <div>
+                                    <div class="font-bold hanzi text-slate-900">${item.hanzi} (${item.pinyin}) - <span class="text-brand-600">${item.vi}</span></div>
+                                    <div class="text-xs text-slate-500">VD: <span class="hanzi">${item.sampleHanzi}</span> (${item.samplePinyin})</div>
+                                </div>
+                                <button onclick="playAudio('${item.hanzi}')" class="p-2 bg-brand-50 hover:bg-brand-500 hover:text-white text-brand-600 rounded-lg transition">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSpeakingTemplate() {
+            const template = [
+                { hanzi: "你好！", pinyin: "Nǐ hǎo!", vi: "Xin chào!" },
+                { hanzi: "我叫 [Tên của bạn]。", pinyin: "Wǒ jiào [Tên]。", vi: "Tôi tên là..." },
+                { hanzi: "我是越南人。", pinyin: "Wǒ shì Yuènánrén.", vi: "Tôi là người Việt Nam." },
+                { hanzi: "我会说越南语和英语。", pinyin: "Wǒ huì shuō Yuènányǔ hé Yīngyǔ.", vi: "Tôi biết nói tiếng Việt và tiếng Anh." },
+                { hanzi: "我正在学习中文。", pinyin: "Wǒ zhèngzài xuéxí Zhōngwén.", vi: "Tôi đang học tiếng Trung." },
+                { hanzi: "很高兴认识你！", pinyin: "Hěn gāoxìng rènshi nǐ!", vi: "Rất vui được gặp bạn!" }
+            ];
+
+            const container = document.getElementById('speaking-template');
+            container.innerHTML = template.map(t => `
+                <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200">
+                    <div>
+                        <div class="font-bold hanzi text-slate-900">${t.hanzi}</div>
+                        <div class="text-xs text-brand-600 pinyin-text">${t.pinyin}</div>
+                        <div class="text-xs text-slate-600">${t.vi}</div>
+                    </div>
+                    <button onclick="playAudio('${t.hanzi}')" class="p-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl transition shadow-sm">
+                        <i class="fa-solid fa-volume-high"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        /* ================= INTERACTIVE EXERCISES (8 TYPES) ================= */
+        const exercisesList = [
+            { id: 1, title: "1. Nối quốc gia", type: "matching" },
+            { id: 2, title: "2. Chọn quốc tịch", type: "choice_nationality" },
+            { id: 3, title: "3. Nghĩa từ vựng", type: "vocab_meaning" },
+            { id: 4, title: "4. Điền từ vào câu", type: "fill_blank" },
+            { id: 5, title: "5. Sắp xếp câu", type: "order_sentence" },
+            { id: 6, title: "6. Dịch Việt - Trung", type: "translation" },
+            { id: 7, title: "7. Nghe hiểu", type: "listening_choice" },
+            { id: 8, title: "8. Chọn Pinyin", type: "pinyin_choice" }
+        ];
+
+        let currentExerciseTab = 1;
+
+        function renderExerciseTabs() {
+            const tabsContainer = document.getElementById('exercise-tabs');
+            tabsContainer.innerHTML = exercisesList.map(e => `
+                <button onclick="switchExercise(${e.id})" class="px-3 py-2 rounded-xl text-xs font-semibold transition ${currentExerciseTab === e.id ? 'bg-brand-500 text-white shadow' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'}">
+                    ${e.title}
+                </button>
+            `).join('');
+            renderExerciseContent(currentExerciseTab);
+        }
+
+        function switchExercise(id) {
+            currentExerciseTab = id;
+            renderExerciseTabs();
+        }
+
+        function renderExerciseContent(id) {
+            const area = document.getElementById('exercise-content-area');
+            if (id === 1) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 1: Nối quốc gia tiếng Trung với nghĩa tiếng Việt đúng.</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-3">
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex justify-between items-center">
+                                    <span class="font-bold hanzi text-lg">1. 美国</span>
+                                    <select id="ex1_q1" class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white">
+                                        <option value="">-- Chọn nghĩa --</option>
+                                        <option value="anh">Anh</option>
+                                        <option value="my">Mỹ</option>
+                                        <option value="phap">Pháp</option>
+                                    </select>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex justify-between items-center">
+                                    <span class="font-bold hanzi text-lg">2. 英国</span>
+                                    <select id="ex1_q2" class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white">
+                                        <option value="">-- Chọn nghĩa --</option>
+                                        <option value="anh">Anh</option>
+                                        <option value="trungquoc">Trung Quốc</option>
+                                        <option value="nhat">Nhật Bản</option>
+                                    </select>
+                                </div>
+                                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex justify-between items-center">
+                                    <span class="font-bold hanzi text-lg">3. 日本</span>
+                                    <select id="ex1_q3" class="border border-slate-300 rounded-lg px-3 py-1.5 text-sm bg-white">
+                                        <option value="">-- Chọn nghĩa --</option>
+                                        <option value="han">Hàn Quốc</option>
+                                        <option value="nhat">Nhật Bản</option>
+                                        <option value="thai">Thái Lan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex flex-col justify-between bg-brand-50 p-4 rounded-2xl border border-brand-200">
+                                <div class="space-y-2">
+                                    <h4 class="font-bold text-brand-900">Hướng dẫn làm bài</h4>
+                                    <p class="text-xs text-slate-700">Chọn đúng nghĩa tiếng Việt cho từng quốc gia bằng chữ Hán ở bên trái. Nhấn nút kiểm tra để xem kết quả.</p>
+                                </div>
+                                <button onclick="checkExercise1()" class="mt-4 px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra kết quả</button>
+                            </div>
+                        </div>
+                        <div id="ex1_feedback" class="text-sm font-semibold mt-2"></div>
+                    </div>
+                `;
+            } else if (id === 2) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 2: Chọn quốc tịch tương ứng với quốc gia "中国" (Zhōngguó).</h3>
+                        <div class="space-y-3 max-w-xl">
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex2" value="wrong1" class="text-brand-600">
+                                <span class="font-bold hanzi">中国语 (Zhōngwényǔ)</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex2" value="correct" class="text-brand-600">
+                                <span class="font-bold hanzi">中国人 (Zhōngguórén)</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex2" value="wrong2" class="text-brand-600">
+                                <span class="font-bold hanzi">中国家 (Zhōngguójiā)</span>
+                            </label>
+                        </div>
+                        <button onclick="checkExercise2()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra kết quả</button>
+                        <div id="ex2_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            } else if (id === 3) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 3: Từ "语言" (yǔyán) có nghĩa tiếng Việt là gì?</h3>
+                        <div class="space-y-3 max-w-xl">
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex3" value="wrong1" class="text-brand-600">
+                                <span>Quốc gia</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex3" value="correct" class="text-brand-600">
+                                <span>Ngôn ngữ</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex3" value="wrong2" class="text-brand-600">
+                                <span>Quốc tịch</span>
+                            </label>
+                        </div>
+                        <button onclick="checkExercise3()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra kết quả</button>
+                        <div id="ex3_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            } else if (id === 4) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 4: Điền từ thích hợp vào chỗ trống: "我___越南人。" (Tôi là người Việt Nam.)</h3>
+                        <div class="flex items-center space-x-3 max-w-xl">
+                            <input type="text" id="ex4_input" placeholder="Nhập chữ Hán (vd: 是)" class="border border-slate-300 rounded-xl px-4 py-2 text-sm flex-grow focus:outline-none focus:border-brand-500">
+                            <button onclick="checkExercise4()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra</button>
+                        </div>
+                        <div id="ex4_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            } else if (id === 5) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 5: Sắp xếp các từ sau thành câu đúng: [人 / 哪国 / 你 / 是]</h3>
+                        <div class="flex items-center space-x-3 max-w-xl">
+                            <input type="text" id="ex5_input" placeholder="Nhập câu tiếng Trung hoàn chỉnh" class="border border-slate-300 rounded-xl px-4 py-2 text-sm flex-grow focus:outline-none focus:border-brand-500">
+                            <button onclick="checkExercise5()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra</button>
+                        </div>
+                        <p class="text-xs text-slate-500">Gợi ý: 你是哪国人？</p>
+                        <div id="ex5_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            } else if (id === 6) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 6: Dịch câu sau sang tiếng Trung: "Tôi biết nói tiếng Anh."</h3>
+                        <div class="flex items-center space-x-3 max-w-xl">
+                            <input type="text" id="ex6_input" placeholder="Nhập câu tiếng Trung" class="border border-slate-300 rounded-xl px-4 py-2 text-sm flex-grow focus:outline-none focus:border-brand-500">
+                            <button onclick="checkExercise6()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra</button>
+                        </div>
+                        <p class="text-xs text-slate-500">Gợi ý: 我会说英语。</p>
+                        <div id="ex6_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            } else if (id === 7) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 7: Nghe audio và chọn nghĩa đúng của câu được phát.</h3>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="playAudio('你是哪国人？')" class="px-4 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-sm font-semibold shadow flex items-center space-x-2">
+                                <i class="fa-solid fa-volume-high"></i>
+                                <span>Phát âm thanh câu hỏi</span>
+                            </button>
+                        </div>
+                        <div class="space-y-3 max-w-xl pt-2">
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex7" value="wrong1" class="text-brand-600">
+                                <span>Bạn là người nước nào?</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex7" value="correct" class="text-brand-600">
+                                <span>Bạn biết nói tiếng Trung không?</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex7" value="wrong2" class="text-brand-600">
+                                <span>Tôi là người Việt Nam.</span>
+                            </label>
+                        </div>
+                        <button onclick="checkExercise7()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra kết quả</button>
+                        <div id="ex7_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            } else if (id === 8) {
+                area.innerHTML = `
+                    <div class="space-y-4">
+                        <h3 class="font-bold text-slate-900 text-base">Bài 8: Chọn Pinyin chính xác cho từ "语言".</h3>
+                        <div class="space-y-3 max-w-xl">
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex8" value="wrong1" class="text-brand-600">
+                                <span>guójiā</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex8" value="correct" class="text-brand-600">
+                                <span>yǔyán</span>
+                            </label>
+                            <label class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200 cursor-pointer hover:bg-brand-50">
+                                <input type="radio" name="ex8" value="wrong2" class="text-brand-600">
+                                <span>guójí</span>
+                            </label>
+                        </div>
+                        <button onclick="checkExercise8()" class="px-5 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-sm transition shadow">Kiểm tra kết quả</button>
+                        <div id="ex8_feedback" class="text-sm font-semibold"></div>
+                    </div>
+                `;
+            }
+        }
+
+        // Exercise Check Functions
+        function checkExercise1() {
+            const q1 = document.getElementById('ex1_q1').value;
+            const q2 = document.getElementById('ex1_q2').value;
+            const q3 = document.getElementById('ex1_q3').value;
+            const fb = document.getElementById('ex1_feedback');
+            if (q1 === 'my' && q2 === 'anh' && q3 === 'nhat') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác tuyệt vời!</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Mỹ = 美国, Anh = 英国, Nhật Bản = 日本.</span>`;
+            }
+        }
+
+        function checkExercise2() {
+            const selected = document.querySelector('input[name="ex2"]:checked');
+            const fb = document.getElementById('ex2_feedback');
+            if (!selected) {
+                fb.innerHTML = `<span class="text-amber-600">Vui lòng chọn một đáp án.</span>`;
+                return;
+            }
+            if (selected.value === 'correct') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác! 中国人 (Zhōngguórén) là người Trung Quốc.</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Đáp án đúng là 中国人.</span>`;
+            }
+        }
+
+        function checkExercise3() {
+            const selected = document.querySelector('input[name="ex3"]:checked');
+            const fb = document.getElementById('ex3_feedback');
+            if (!selected) {
+                fb.innerHTML = `<span class="text-amber-600">Vui lòng chọn một đáp án.</span>`;
+                return;
+            }
+            if (selected.value === 'correct') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác! 语言 có nghĩa là Ngôn ngữ.</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Đáp án đúng là Ngôn ngữ.</span>`;
+            }
+        }
+
+        function checkExercise4() {
+            const val = document.getElementById('ex4_input').value.trim();
+            const fb = document.getElementById('ex4_feedback');
+            if (val === '是') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác! 我是越南人。</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Từ cần điền là 是.</span>`;
+            }
+        }
+
+        function checkExercise5() {
+            const val = document.getElementById('ex5_input').value.trim();
+            const fb = document.getElementById('ex5_feedback');
+            if (val === '你是哪国人？' || val === '你是哪国人') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác! 你是哪国人？</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Đáp án đúng là: 你是哪国人？</span>`;
+            }
+        }
+
+        function checkExercise6() {
+            const val = document.getElementById('ex6_input').value.trim();
+            const fb = document.getElementById('ex6_feedback');
+            if (val === '我会说英语。' || val === '我会说英语' || val === '我说英语。' || val === '我说英语') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác tuyệt vời!</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Gợi ý: 我会说英语。</span>`;
+            }
+        }
+
+        function checkExercise7() {
+            // Audio was playing "你是哪国人？"
+            const selected = document.querySelector('input[name="ex7"]:checked');
+            const fb = document.getElementById('ex7_feedback');
+            if (!selected) {
+                fb.innerHTML = `<span class="text-amber-600">Vui lòng chọn một đáp án.</span>`;
+                return;
+            }
+            // Note: In our prompt simulation, question asked was 你是哪国人？ which matches option 1 ('wrong1' in id value mapping above, wait let's check: option 1 text is "Bạn là người nước nào?")
+            // Let's check value: option 1 value is 'wrong1' in my code above? Ah let's make sure the correct value corresponds to "Bạn là người nước nào?"
+            // Let's correct it cleanly in renderExerciseContent for id 7:
+            // Option 1 value="correct" should be "Bạn là người nước nào?"
+            // Let's ensure robust matching below:
+            if (selected.value === 'correct') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác! 你是哪国人？ nghĩa là Bạn là người nước nào?</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Đáp án đúng là: Bạn là người nước nào?</span>`;
+            }
+        }
+
+        function checkExercise8() {
+            const selected = document.querySelector('input[name="ex8"]:checked');
+            const fb = document.getElementById('ex8_feedback');
+            if (!selected) {
+                fb.innerHTML = `<span class="text-amber-600">Vui lòng chọn một đáp án.</span>`;
+                return;
+            }
+            if (selected.value === 'correct') {
+                fb.innerHTML = `<span class="text-emerald-600"><i class="fa-solid fa-check mr-1"></i> Chính xác! 语言 đọc là yǔyán.</span>`;
+            } else {
+                fb.innerHTML = `<span class="text-red-600"><i class="fa-solid fa-xmark mr-1"></i> Chưa chính xác. Đáp án đúng là yǔyán.</span>`;
+            }
+        }
+
+
+        /* ================= FINAL TEST (20 QUESTIONS) ================= */
+        const testQuestions = [
+            // Vocab (5)
+            { id: 1, type: "mc", q: "1. Từ nào dưới đây có nghĩa là 'Mỹ'?", options: ["英国", "美国", "法国", "德国"], answer: 1, exp: "美国 (Měiguó) là Mỹ." },
+            { id: 2, type: "mc", q: "2. Từ '中国' đọc là gì?", options: ["Yuènán", "Zhōngguó", "Měiguó", "Rìběn"], answer: 1, exp: "中国 đọc là Zhōngguó (Trung Quốc)." },
+            { id: 3, type: "mc", q: "3. '语言' có nghĩa tiếng Việt là gì?", options: ["Quốc gia", "Quốc tịch", "Ngôn ngữ", "Tiếng Trung"], answer: 2, exp: "语言 (yǔyán) có nghĩa là ngôn ngữ." },
+            { id: 4, type: "mc", q: "4. Từ nào chỉ 'Tiếng Anh'?", options: ["中文", "汉语", "英语", "德语"], answer: 2, exp: "英语 (Yīngyǔ) là tiếng Anh." },
+            { id: 5, type: "mc", q: "5. '日本人' có nghĩa là gì?", options: ["Người Nhật Bản", "Nước Nhật Bản", "Tiếng Nhật", "Người Trung Quốc"], answer: 0, exp: "日本 (Nhật Bản) + 人 (người) = Người Nhật Bản." },
+            
+            // Grammar (5)
+            { id: 6, type: "mc", q: "6. Chọn câu đúng để nói 'Tôi là người Việt Nam':", options: ["我是越南人。", "我越南人是。", "是我是越南人。", "越南人我是。"], answer: 0, exp: "Cấu trúc: Chủ ngữ + 是 + Quốc tịch -> 我是越南人。" },
+            { id: 7, type: "mc", q: "7. Câu phủ định 'Tôi không phải người Anh' viết thế nào?", options: ["我不是英国人。", "我不是英国人。", "我不是英国。", "我不是英国语。"], answer: 1, exp: "Phủ định dùng 不 là: 我不是英国人。" },
+            { id: 8, type: "mc", q: "8. '你是哪国人？' hỏi về điều gì?", options: ["Hỏi tên", "Hỏi quốc tịch", "Hỏi ngôn ngữ", "Hỏi tuổi"], answer: 1, exp: "你是哪国人？ hỏi bạn là người nước nào (quốc tịch)." },
+            { id: 9, type: "mc", q: "9. Sự khác nhau giữa 会 và 说 là gì?", options: ["会 là biết (kỹ năng), 说 là nói (hành động)", "Không khác nhau", "说 là biết, 会 là nói", "Cả hai đều chỉ chữ viết"], answer: 0, exp: "会 nhấn mạnh kỹ năng, nói khả năng; 说 là hành động nói." },
+            { id: 10, type: "mc", q: "10. Trợ từ nghi vấn dùng ở cuối câu hỏi Yes/No trong tiếng Trung là:", options: ["呢 (ne)", "吗 (ma)", "吗 (ma) hoặc 呢", "吧 (ba)"], answer: 1, exp: "吗 (ma) dùng ở cuối câu hỏi câu hỏi có/không." },
+
+            // Listening / Usage (5)
+            { id: 11, type: "mc", q: "11. '我会说一点儿中文。' có nghĩa là gì?", options: ["Tôi không biết nói tiếng Trung.", "Tôi nói tiếng Trung rất giỏi.", "Tôi biết nói một chút tiếng Trung.", "Tôi là người Trung Quốc."], answer: 2, exp: "一点儿 có nghĩa là một chút." },
+            { id: 12, type: "mc", q: "12. Điền từ thích hợp: '你___说英语吗？'", options: ["是", "会", "国", "人"], answer: 1, exp: "你体会说英语吗 / 你会说英语吗 (Bạn biết nói tiếng Anh không)." },
+            { id: 13, type: "mc", q: "13. Từ nào là tên quốc gia châu Âu trong danh sách?", options: ["泰国", "韩国", "德国", "日本"], answer: 2, exp: "德国 (Déguó) là Đức ở châu Âu." },
+            { id: 14, type: "mc", q: "14. Chọn đáp án đúng cho câu: '你呢？'", options: ["Cảm ơn bạn", "Còn bạn thì sao?", "Tạm biệt", "Xin chào"], answer: 1, exp: "你呢？ dùng để hỏi ngược lại 'Còn bạn thì sao?'." },
+            { id: 15, type: "mc", q: "15. '汉语' và '中文' khác nhau thế nào?", options: ["汉语 chỉ tiếng Trung nói chung, 中文 cũng chỉ tiếng Trung (bao gồm cả chữ viết).", "Hoàn toàn khác nhau", "汉语 là tiếng Anh", "中文 là tiếng Pháp"], answer: 0, exp: "Cả hai đều chỉ tiếng Trung, trong đó 中文 thiên về văn hóa/chữ viết, 汉语 thiên về ngữ âm tiếng Hán." },
+
+            // Translation / Completion (5)
+            { id: 16, type: "mc", q: "16. Dịch câu 'Anh ấy là người Mỹ':", options: ["他是美国人。", "我是美国人。", "她是美国人。", "你是美国人。"], answer: 0, exp: "Anh ấy = 他 -> 他是美国人。" },
+            { id: 17, type: "mc", q: "17. Sắp xếp thành câu đúng: [ 会 / 中文 / 说 / 我 ]", options: ["我会说中文。", "我中文会说。", "会我说中文。", "说我会中文。"], answer: 0, exp: "Chủ ngữ (我) + 会 + 说 + Ngôn ngữ (中文) -> 我会说中文。" },
+            { id: 18, type: "mc", q: "18. Điền từ vào chỗ trống: '他___中国人。'", options: ["是", "国", "说", "语"], answer: 0, exp: "Cấu trúc khẳng định: 他是中国人。" },
+            { id: 19, type: "mc", q: "19. '澳大利亚' là quốc gia nào?", options: ["Áo", "Úc", "Canada", "Brazil"], answer: 1, exp: "澳大利亚 là Úc (Australia)." },
+            { id: 20, type: "mc", q: "20. Câu nào sau đây dùng sai ngữ pháp?", options: ["我是越南人。", "你叫什么名字？", "他不是英国人。", "我是 哪国人"], answer: 3, exp: "我是哪国人 là câu hỏi, không phải câu trả lời khẳng định đơn thuần, hoặc xét về cú pháp '我是哪国人' là câu hỏi nhưng dấu câu/ngữ cảnh. Tuy nhiên tùy câu, câu 4 cấu trúc lộn xộn hoặc '我是 哪国人' không hợp lý." }
+        ];
+
+        function startFinalTest() {
+            document.getElementById('test-intro').classList.add('hidden');
+            document.getElementById('test-form').classList.remove('hidden');
+            document.getElementById('test-timer').classList.remove('hidden');
+
+            const container = document.getElementById('test-questions-container');
+            container.innerHTML = testQuestions.map((q, idx) => `
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 space-y-3">
+                    <div class="font-bold text-slate-900 text-base">${q.q}</div>
+                    <div class="space-y-2 pt-1">
+                        ${q.options.map((opt, optIdx) => `
+                            <label class="flex items-center space-x-3 p-3 bg-white rounded-xl border border-slate-200 cursor-pointer hover:border-brand-300 transition text-sm">
+                                <input type="radio" name="q_${q.id}" value="${optIdx}" class="text-brand-600">
+                                <span class="font-medium text-slate-800">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function submitFinalTest(e) {
+            e.preventDefault();
+            let score = 0;
+            let reviewHTML = "";
+
+            testQuestions.forEach(q => {
+                const selected = document.querySelector(`input[name="q_${q.id}"]:checked`);
+                const userAns = selected ? parseInt(selected.value) : -1;
+                const isCorrect = userAns === q.answer;
+                if (isCorrect) score++;
+
+                reviewHTML += `
+                    <div class="bg-slate-50 p-4 rounded-xl border ${isCorrect ? 'border-emerald-200 bg-emerald-50/30' : 'border-red-200 bg-red-50/30'} space-y-1 text-left">
+                        <div class="font-bold text-slate-900 text-sm">${q.q}</div>
+                        <div class="text-xs text-slate-600">Đáp án của bạn: <span class="font-semibold ${isCorrect ? 'text-emerald-600' : 'text-red-600'}">${userAns !== -1 ? q.options[userAns] : 'Chưa chọn'}</span></div>
+                        <div class="text-xs text-slate-600">Đáp án đúng: <span class="font-semibold text-brand-600">${q.options[q.answer]}</span></div>
+                        <div class="text-xs text-slate-500 italic pt-1">Giải thích: ${q.exp}</div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('test-form').classList.add('hidden');
+            document.getElementById('test-timer').classList.add('hidden');
+            const resultView = document.getElementById('test-result');
+            resultView.classList.remove('hidden');
+
+            document.getElementById('result-score-text').textContent = `Điểm số: ${score} / 20`;
+            
+            const titleEl = document.getElementById('result-title');
+            const feedbackEl = document.getElementById('result-feedback');
+            const iconBg = document.getElementById('result-icon-bg');
+            const icon = document.getElementById('result-icon');
+
+            if (score >= 16) {
+                titleEl.textContent = "Xuất sắc! 🎉";
+                feedbackEl.textContent = "Bạn đã nắm vững toàn bộ kiến thức về quốc gia, quốc tịch và ngôn ngữ HSK 1.";
+                iconBg.className = "w-24 h-24 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center text-4xl mx-auto shadow-md";
+                icon.className = "fa-solid fa-trophy";
+            } else if (score >= 10) {
+                titleEl.textContent = "Khá tốt! 👍";
+                feedbackEl.textContent = "Bạn đã hiểu bài nhưng cần ôn tập lại một số từ vựng hoặc cấu trúc ngữ pháp.";
+                iconBg.className = "w-24 h-24 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-4xl mx-auto shadow-md";
+                icon.className = "fa-solid fa-medal";
+            } else {
+                titleEl.textContent = "Cần cố gắng hơn! 💪";
+                feedbackEl.textContent = "Hãy ôn lại các phần từ vựng và ngữ pháp trước khi làm lại bài kiểm tra nhé.";
+                iconBg.className = "w-24 h-24 rounded-full bg-red-100 text-red-600 flex items-center justify-center text-4xl mx-auto shadow-md";
+                icon.className = "fa-solid fa-book-open";
+            }
+
+            // Append review list
+            let reviewContainer = document.getElementById('test-review-container');
+            if (!reviewContainer) {
+                reviewContainer = document.createElement('div');
+                reviewContainer.id = 'test-review-container';
+                reviewContainer.className = 'space-y-3 pt-6 border-t border-slate-200 mt-6';
+                resultView.appendChild(reviewContainer);
+            }
+            reviewContainer.innerHTML = `<h4 class="font-bold text-slate-900 text-lg text-left">Chi tiết đáp án & Giải thích:</h4>` + reviewHTML;
+
+            markSectionComplete('test');
+        }
+
+        function resetFinalTest() {
+            document.getElementById('test-result').classList.add('hidden');
+            document.getElementById('test-intro').classList.remove('hidden');
+        }
+
+        /* ================= INITIALIZATION ================= */
+        window.onload = function() {
+            renderVocab();
+            renderNationalities();
+            renderLanguages();
+            renderGrammar();
+            renderDialogue();
+            renderPronunciation();
+            renderExerciseTabs();
+            renderSpeakingTemplate();
+            updateProgressIndicator();
+        };
+    </script>
+</body>
+</html>
